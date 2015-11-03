@@ -3,6 +3,17 @@
 </head>
 
 <body>
-  <h1 class="welcome">Welcome to V-PESA! Please log in via Venmo</h1>
+  <h1 class="welcome">
+  	<div> Welcome to V-PESA! Please log in with Venmo </div>
+  	{{> login}}
+  </h1>
 </body>
 
+<template name="login">
+	{{#if currentUser}}
+  		<div> You're logged in! </div>
+  		<div> <button id="logout-button">Logout</button> </div>
+  	{{else}}
+  		<div> <button id="login-button" class="btn btn-default"> Login with Venmo</button> </div>
+  	{{/if}}
+</template>
