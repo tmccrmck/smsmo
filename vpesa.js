@@ -1,17 +1,20 @@
 if (Meteor.isClient) {
 
+  Template.home.events({
+    'click #logout-button': function () {
+      Meteor.logout(function(err){
+        if (err) {
+          throw new Meteor.Error("Logout failed");
+        }
+      });
+    }
+  });
+
   Template.login.events({
     'click #login-button': function () {
       Meteor.loginWithVenmo(function (err) {
         if (err) {
           throw new Meteor.Error("Login failed");
-        }
-      });
-    },
-    'click #logout-button': function () {
-      Meteor.logout(function(err){
-        if (err) {
-          throw new Meteor.Error("Logout failed");
         }
       });
     }

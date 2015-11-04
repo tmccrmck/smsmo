@@ -2,18 +2,16 @@
   <title>vpesa</title>
 </head>
 
-<body>
-  <h1 class="welcome">
-  	<div> Welcome to V-PESA! Please log in with Venmo </div>
-  	{{> login}}
-  </h1>
-</body>
+<template name="home">
+	<h1 classs="welcome"> You're logged in!</h1>
+	<div classs="welcome"> <button id="logout-button" class="btn btn-default">Logout</button> </div>
+</template>
 
 <template name="login">
 	{{#if currentUser}}
-  		<div> You're logged in! </div>
-  		<div> <button id="logout-button">Logout</button> </div>
+  		<div class="welcome"> You're logged in! Something is wrong :( </div>
   	{{else}}
-  		<div> <button id="login-button" class="btn btn-default"> Login with Venmo</button> </div>
+  		<h1 class="welcome"> Welcome to V-PESA! Please log in with Venmo </h1>
+  		<div class="welcome"> <button id="login-button" class="btn btn-default"> Login with Venmo</button> </div>
   	{{/if}}
 </template>
