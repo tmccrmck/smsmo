@@ -29,9 +29,9 @@ if (Meteor.isServer) {
       service: "venmo"
       }, { 
         $set: {
-        clientId: "3090",
+        clientId: "3152",
         scope: "access_profile+access_friends+make_payments",
-        secret: "bA8hM7A3cuAFA2CfT7wawwz497L5MyFp"
+        secret: "2UvJSNBXHXDdXgdBS3VbfBx9Fgc55jx7"
         }
     });
   });

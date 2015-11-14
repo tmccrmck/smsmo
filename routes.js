@@ -13,3 +13,7 @@ Router.route('/', function () {
   	this.redirect('/login');
   }
 });
+
+Router.route('/message', function (){
+  console.log("!!!!!!!!!!!!!!!!!!!!!!^___^")
+})
