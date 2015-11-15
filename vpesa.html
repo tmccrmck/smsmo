@@ -6,24 +6,29 @@
 	<div class="welcome">
 	<h1> You're logged in!</h1>
 		{{#if notSubmitted}}
-			<form class="addNumber">
-		        <input type="text" name="text" placeholder="Add your number" />
-		        <input class="btn btn-default" type="submit" value="Submit" id="submit">
+		<div id="center" class ="col-md-6 col-md-offset-3">
+			<form class="addNumber form-inline">
+				<div class="form-group">
+			    	<label for="phone">Phone number:</label>
+			    	<input type="text" name="text" class="form-control" placeholder="4152308800">
+			  	</div>
+  				<input class="btn btn-default" type="submit" value="Submit" id="submit">
 		    </form>
+		</div>
 		{{else}}
-			Thanks! Check your phone for a text to receive instructions ;)
+			Thanks! Check your phone for a text to receive instructions.
 	    {{/if}}
-	    <br>
-	    <br>
-		<div> <button id="logout-button" class="btn btn-default">Logout</button> </div>
+		<div id="center" class ="log col-md-6 col-md-offset-3"> <button id="logout-button" class="btn btn-default">Logout</button> </div>
 	</div>
 </template>
 
 <template name="login">
-	{{#if currentUser}}
-  		<div class="welcome"> You're logged in! Something is wrong :( </div>
-  	{{else}}
-  		<h1 class="welcome"> Welcome to SMSmo! Please log in with Venmo </h1>
-  		<div class="welcome"> <button id="login-button" class="btn btn-default"> Login with Venmo</button> </div>
-  	{{/if}}
+	<body>
+		{{#if currentUser}}
+	  		<div class="welcome"> You're logged in! Something is wrong :( </div>
+	  	{{else}}
+	  		<h1 class="welcome"> Welcome to SMSmo! Please log in with Venmo </h1>
+	  		<div class="welcome"> <button id="login-button" class="btn btn-primary btn-large"> Login with Venmo</button> </div>
+	  	{{/if}}
+  	</body>
 </template>
