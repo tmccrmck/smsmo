@@ -33,9 +33,35 @@ if (Meteor.isServer){
 			Meteor.users.update({_id: userId}, {$set: {'phone': num}});
 		},
 		'handleTwilioResponse': function(phone, msg){
-			Meteor.call('user_pay_user', "1492408122474496203", "1748846736572416395", 0.1)
+			var phone = phone.substr(2);
+			var user = Meteor.users.findOne({"phone": phone});
+			if (!user) {
+				throw new Meteor.Error("Couldn't find a user!");
+			}
+			var access_token = user.services.venmo.accessToken;
+
+			var msgArray = msg.split(' ');
+			if (msgArray.length != 4){
+				throw new Meteor.Error("Invalid message")
+			}
+			var code = msgArray[0]; // only supports send
+			var name = msgArray[1] + ' ' + msgArray[2];
+			var amt = parseFloat(msgArray[3])
+
+			var friends = Friends.findOne(user._id).venmo_friends;
+			var friend = friends.filter(function(obj){
+				return obj.display_name === name;
+			});
+			if (friend.length === 1){
+				// add code to send message back to user
+				friend_id = friend[0].id;
+			} else {
+				throw new Meteor.Error("Need to specify friend");
+			}
+
+			Meteor.call('user_pay_user', access_token, friend_id, amt)
 		},
-		'user_pay_user': function(access_token, venmo_id, amount) {
+		'user_pay_user': function(access, venmo_id, amount) {
 			var url = "https://api.venmo.com/v1/payments";
 			var req = HTTP.call("POST", url, 
 								{params: {access_token: access, user_id: venmo_id, note: Math.random().toString(), amount: amount}},
