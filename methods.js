@@ -58,20 +58,26 @@ if (Meteor.isServer){
 			var access_token = user.services.venmo.accessToken;
 
 			var msgArray = msg.split(' ');
-			if (msgArray.length != 4){
+			if (msgArray.length != 3 && msgArray.length != 4){
 				client.sendSMS({
 	  				to: phone,
 	  				body: 'Invalid submission. Please use the the form "Send friend_name amount"'
 				});
 				throw new Meteor.Error("Invalid message")
 			}
-			var code = msgArray[0]; // only supports send
-			var name = msgArray[1] + ' ' + msgArray[2];
-			var amt = parseFloat(msgArray[3])
+			var code = msgArray[0]; // only supports send atm
+
+			if (msgArray.length == 4){
+				var name = msgArray[1] + ' ' + msgArray[2];
+				var amt = parseFloat(msgArray[3])
+			} else {
+				var name = msgArray[1];
+				var amt = parseFloat(msgArray[2])
+			}
 
 			var friends = Friends.findOne(user._id).venmo_friends;
 			var friend = friends.filter(function(obj){
-				return obj.display_name === name;
+				return obj.display_name === name || obj.first_name === name;
 			});
 
 			if (friend.length === 1){
