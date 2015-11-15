@@ -62,12 +62,6 @@ if (Meteor.isServer) {
         }
     });
 
-    var client = new Twilio({
-      from: Meteor.settings.TWILIO.FROM,
-      sid: Meteor.settings.TWILIO.SID,
-      token: Meteor.settings.TWILIO.TOKEN
-    });
-
   });
 
   Meteor.publish("users", function () {
@@ -80,7 +74,7 @@ if (Meteor.isServer) {
 
   Meteor.publish('friends', function () {
     if (this.userId){
-      return Friends.find({});
+      return Friends.find({_id: this.userId});
     } else {
       this.ready();
     }

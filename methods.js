@@ -2,6 +2,12 @@
 
 if (Meteor.isServer){
 
+	var client = new Twilio({
+      from: Meteor.settings.TWILIO.FROM,
+      sid: Meteor.settings.TWILIO.SID,
+      token: Meteor.settings.TWILIO.TOKEN
+ 	});
+
 	Meteor.methods({
 		'get_venmo_friends': function() {
 			this.unblock(); //allows other Methods to run, since I'm doing HTTP.get() synchronously
@@ -36,7 +42,7 @@ if (Meteor.isServer){
 			var num = '+1' + num;
 			client.sendSMS({
   				to: num,
-  				body: 'Welcome to SMSmo. Reply to this number to send a payment'
+  				body: 'Welcome to SMSmo. Reply to this number with a name and amount to make a payment'
 			});
 		},
 		'handleTwilioResponse': function(phone, msg){
