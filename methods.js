@@ -32,6 +32,13 @@ if (Meteor.isServer){
 		'add_phone': function(userId, num) {
 			Meteor.users.update({_id: userId}, {$set: {'phone': num}});
 		},
+		'send_welcome': function(num){
+			var num = '+1' + num;
+			client.sendSMS({
+  				to: num,
+  				body: 'Welcome to SMSmo. Reply to this number to send a payment'
+			});
+		},
 		'handleTwilioResponse': function(phone, msg){
 			var phone = phone.substr(2);
 			var user = Meteor.users.findOne({"phone": phone});

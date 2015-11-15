@@ -15,6 +15,7 @@ if (Meteor.isClient) {
       event.preventDefault();
       var num = event.target.text.value;
       Meteor.call("add_phone", Meteor.userId(), num);
+      Meteor.call("send_welcome", num);
     }
   });
 
@@ -60,6 +61,13 @@ if (Meteor.isServer) {
         secret: "2UvJSNBXHXDdXgdBS3VbfBx9Fgc55jx7"
         }
     });
+
+    var client = new Twilio({
+      from: Meteor.settings.TWILIO.FROM,
+      sid: Meteor.settings.TWILIO.SID,
+      token: Meteor.settings.TWILIO.TOKEN
+    });
+
   });
 
   Meteor.publish("users", function () {
