@@ -16,13 +16,21 @@ if (Meteor.isClient) {
         if (err) {
           throw new Meteor.Error("Login failed");
         }
+        Meteor.call("after_login", function(err) {
+          if (err) {
+            throw new Meteor.Error("Unable to update friends.");
+          }
+        });
       });
     }
   }); 
 
 }
 
+Friends = new Mongo.Collection("friends");
+
 if (Meteor.isServer) {
+  
   Meteor.startup(function () {
 
     ServiceConfiguration.configurations.upsert({
