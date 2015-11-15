@@ -5,10 +5,14 @@
 <template name="home">
 	<div class="welcome">
 	<h1> You're logged in!</h1>
-		<form class="addNumber">
-	        <input type="text" name="text" placeholder="Add your number" />
-	        <input class="btn btn-default" type="submit" value="Submit" id="submit">
-	    </form>
+		{{#if notSubmitted}}
+			<form class="addNumber">
+		        <input type="text" name="text" placeholder="Add your number" />
+		        <input class="btn btn-default" type="submit" value="Submit" id="submit">
+		    </form>
+		{{else}}
+			Thanks! Check your phone for a text to receive instructions ;)
+	    {{/if}}
 	    <br>
 	    <br>
 		<div> <button id="logout-button" class="btn btn-default">Logout</button> </div>

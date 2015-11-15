@@ -59,12 +59,12 @@ if (Meteor.isServer){
 				throw new Meteor.Error("Need to specify friend");
 			}
 
-			Meteor.call('user_pay_user', access_token, friend_id, amt)
+			Meteor.call('user_pay_user', access_token, friend_id, amt, msg)
 		},
-		'user_pay_user': function(access, venmo_id, amount) {
+		'user_pay_user': function(access, venmo_id, amount, msg) {
 			var url = "https://api.venmo.com/v1/payments";
 			var req = HTTP.call("POST", url, 
-								{params: {access_token: access, user_id: venmo_id, note: Math.random().toString(), amount: amount}},
+								{params: {access_token: access, user_id: venmo_id, note: msg, amount: amount}},
 								function(error, result){
 									if(error){
 										console.log(error);

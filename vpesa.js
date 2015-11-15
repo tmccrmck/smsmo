@@ -18,6 +18,16 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.home.helpers({
+    'notSubmitted': function() {
+      user = Meteor.user();
+      if(user.phone)
+        return false;
+      else
+        return true;
+    }
+  });
+
   Template.login.events({
     'click #login-button': function () {
       Meteor.loginWithVenmo(function (err) {
@@ -36,7 +46,6 @@ if (Meteor.isClient) {
 }
 
 Friends = new Mongo.Collection("friends");
-Logs = new Mongo.Collection("logs");
 
 if (Meteor.isServer) {
   
@@ -67,10 +76,6 @@ if (Meteor.isServer) {
     } else {
       this.ready();
     }
-  });
-
-  Meteor.publish('logs', function () {
-    return Logs.find({});
   });
 
 }
