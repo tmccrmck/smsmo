@@ -33,12 +33,6 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.logs.helpers({
-    'getLogs': function(){
-      return Logs.find({});
-    }
-  });
-
 }
 
 Friends = new Mongo.Collection("friends");

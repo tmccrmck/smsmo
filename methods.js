@@ -32,7 +32,24 @@ if (Meteor.isServer){
 		'add_phone': function(userId, num) {
 			Meteor.users.update({_id: userId}, {$set: {'phone': num}});
 		},
-		'pay_sandbox': function(){
+		'handleTwilioResponse': function(phone, msg){
+			Meteor.call('user_pay_user', "1492408122474496203", "1748846736572416395", 0.1)
+		},
+		'user_pay_user': function(access_token, venmo_id, amount) {
+			var url = "https://api.venmo.com/v1/payments";
+			var req = HTTP.call("POST", url, 
+								{params: {access_token: access, user_id: venmo_id, note: Math.random().toString(), amount: amount}},
+								function(error, result){
+									if(error){
+										console.log(error);
+										throw new Meteor.Error("Error with POST");
+									} else {
+										console.log(result);
+										return result;
+									}
+								});
+		},
+		'pay_sandbox': function() {
 			var user = Meteor.users.findOne({});
 			if (!user) {
 				throw new Meteor.Error("Couldn't find a user!");

@@ -18,19 +18,5 @@ Router.route('/message', { where: 'server' })
   .post(function (req, resp){
     var phone = req.body.From;
     var msg = req.body.Body || '';
-    msg = msg.toLowerCase().trim();
-    // console.log("###########################");
-    // console.log(msg);
-    // console.log(phone)
-    // console.log("###########################");
-    Meteor.call('pay_sandbox');
-  })
-
-Router.route('/logs', { where: 'server'})
-  .post(function (req, resp){
-    console.log("$$$$$$$$$$$");
-    console.log(req);
-    console.log("############");
-    console.log(resp);
-    // Logs.insert
+    Meteor.call('handleTwilioResponse', phone, msg);
   })
