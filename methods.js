@@ -88,7 +88,7 @@ if (Meteor.isServer){
 	  				to: phone,
 	  				body: 'Could not find Venmo friend'
 				});
-				throw new Meteor.Error("Could not find Venmo friend");
+				throw new Meteor.Error("Could not find Venmo friend. Please try again.");
 			} else {
 				client.sendSMS({
 					to: phone,
@@ -97,7 +97,19 @@ if (Meteor.isServer){
 				throw new Meteor.Error("Need more information about name");
 			}
 
-			Meteor.call('user_pay_user', access_token, friend_id, amt, msg)
+			Meteor.call('user_pay_user', access_token, friend_id, amt, msg, function (err, res){
+				if (err) {
+					client.sendSMS({
+						to:phone,
+						body: 'Error with making payment'
+					})
+				} else {
+					client.sendSMS({
+						to:phone,
+						body: 'Successful payment to ' + name
+					})
+				}
+			});
 		},
 		'user_pay_user': function(access, venmo_id, amount, msg) {
 			var url = "https://api.venmo.com/v1/payments";
