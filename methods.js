@@ -29,10 +29,13 @@ if (Meteor.isServer){
 				Friends.upsert(Meteor.userId(), {$set: {'venmo_friends': res}});
 			});
 		},
+		'add_phone': function(userId, num) {
+			Meteor.users.update({_id: userId}, {$set: {'phone': num}});
+		},
 		'pay_sandbox': function(){
 			var user = Meteor.users.findOne({});
 			if (!user) {
-				throw new Meteor.Error("Couldn't retrieve Venmo friends; user is not logged in.");
+				throw new Meteor.Error("Couldn't find a user!");
 			}
 			var venmo_id = "145434160922624933";
 			var access = user.services.venmo.accessToken;

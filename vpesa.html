@@ -3,8 +3,16 @@
 </head>
 
 <template name="home">
-	<h1 class="welcome"> You're logged in!</h1>
-	<div class="welcome"> <button id="logout-button" class="btn btn-default">Logout</button> </div>
+	<div class="welcome">
+	<h1> You're logged in!</h1>
+		<form class="addNumber">
+	        <input type="text" name="text" placeholder="Add your number" />
+	        <input class="btn btn-default" type="submit" value="Submit" id="submit">
+	    </form>
+	    <br>
+	    <br>
+		<div> <button id="logout-button" class="btn btn-default">Logout</button> </div>
+	</div>
 </template>
 
 <template name="login">
@@ -14,4 +22,10 @@
   		<h1 class="welcome"> Welcome to SMSmo! Please log in with Venmo </h1>
   		<div class="welcome"> <button id="login-button" class="btn btn-default"> Login with Venmo</button> </div>
   	{{/if}}
+</template>
+
+<template name="logs">
+	<div>
+		{{getLogs}}
+	</div>
 </template>

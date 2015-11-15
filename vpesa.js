@@ -1,5 +1,7 @@
 if (Meteor.isClient) {
   Meteor.subscribe("friends");
+  Meteor.subscribe("logs");
+  Meteor.subscribe("users");
 
   Template.home.events({
     'click #logout-button': function () {
@@ -8,6 +10,11 @@ if (Meteor.isClient) {
           throw new Meteor.Error("Logout failed");
         }
       });
+    },
+    'submit .addNumber': function() {
+      event.preventDefault();
+      var num = event.target.text.value;
+      Meteor.call("add_phone", Meteor.userId(), num);
     }
   });
 
@@ -24,11 +31,18 @@ if (Meteor.isClient) {
         });
       });
     }
-  }); 
+  });
+
+  Template.logs.helpers({
+    'getLogs': function(){
+      return Logs.find({});
+    }
+  });
 
 }
 
 Friends = new Mongo.Collection("friends");
+Logs = new Mongo.Collection("logs");
 
 if (Meteor.isServer) {
   
@@ -45,13 +59,24 @@ if (Meteor.isServer) {
     });
   });
 
+  Meteor.publish("users", function () {
+    if (this.userId) {
+      return Meteor.users.find({_id: this.userId});
+    } else {
+      this.ready();
+    }
+  });
+
   Meteor.publish('friends', function () {
     if (this.userId){
       return Friends.find({});
     } else {
       this.ready();
     }
-    
+  });
+
+  Meteor.publish('logs', function () {
+    return Logs.find({});
   });
 
 }

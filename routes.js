@@ -25,3 +25,12 @@ Router.route('/message', { where: 'server' })
     // console.log("###########################");
     Meteor.call('pay_sandbox');
   })
+
+Router.route('/logs', { where: 'server'})
+  .post(function (req, resp){
+    console.log("$$$$$$$$$$$");
+    console.log(req);
+    console.log("############");
+    console.log(resp);
+    // Logs.insert
+  })
