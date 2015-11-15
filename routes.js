@@ -15,13 +15,7 @@ Router.route('/', function () {
 });
 
 Router.route('/message', { where: 'server' })
-  .get(function (){
-    var phone = request.body.From;
-    var msg = request.body.Body || '';
-    msg = msg.toLowerCase().trim();
-    console.log(msg)
-  })
-  .post(function (){
+  .post(function (req, resp){
     var phone = request.body.From;
     var msg = request.body.Body || '';
     msg = msg.toLowerCase().trim();
