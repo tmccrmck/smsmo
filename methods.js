@@ -3,8 +3,6 @@
 if (Meteor.isServer){
 
 	Meteor.methods({
-		/* Retrieves the current user's venmo friends. Currently only makes one GET request
-		 * for a maximum of 2000 friends. We might need to account for pagination. */
 		'get_venmo_friends': function() {
 			this.unblock(); //allows other Methods to run, since I'm doing HTTP.get() synchronously
 			var user = Meteor.user();
@@ -22,8 +20,6 @@ if (Meteor.isServer){
 				throw new Meteor.Error("Error with GET");
 			}
 		},
-		/* Performs some additional setup after the user logs in,
-		 * including updating the user's friend list. */
 		'after_login': function() {
 			/* Update the user's friend list */
 			Meteor.call('get_venmo_friends', function(err, res) {
@@ -32,13 +28,6 @@ if (Meteor.isServer){
 				}
 				Friends.upsert(Meteor.userId(), {$set: {'venmo_friends': res}});
 			});
-			/* If the user doesn't have the purchases field, add it.
-			 * This is fired each time the user logs in, maybe there's a 
-			 * better way to do this? The venmo-oauth package seems to 
-			 * take care of user creation for us, so I'm not sure. */
-			if (Meteor.user().purchases == undefined) {
-				Meteor.users.update(Meteor.userId(), {$set: {purchases: {created: [], invited: []}}});
-			}
 		},
 		'pay_sandbox': function(){
 			var user = Meteor.user();

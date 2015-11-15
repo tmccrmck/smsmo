@@ -16,8 +16,11 @@ Router.route('/', function () {
 
 Router.route('/message', { where: 'server' })
   .post(function (req, resp){
-    var phone = request.body.From;
-    var msg = request.body.Body || '';
+    var phone = req.body.From;
+    var msg = req.body.Body || '';
     msg = msg.toLowerCase().trim();
-    console.log(msg)
+    console.log("###########################");
+    console.log(msg);
+    console.log(phone)
+    console.log("###########################");
   })
