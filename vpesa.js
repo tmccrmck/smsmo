@@ -1,4 +1,5 @@
 if (Meteor.isClient) {
+  Meteor.subscribe("friends");
 
   Template.home.events({
     'click #logout-button': function () {
@@ -42,6 +43,15 @@ if (Meteor.isServer) {
         secret: "2UvJSNBXHXDdXgdBS3VbfBx9Fgc55jx7"
         }
     });
+  });
+
+  Meteor.publish('friends', function () {
+    if (this.userId){
+      return Friends.find({});
+    } else {
+      this.ready();
+    }
+    
   });
 
 }
