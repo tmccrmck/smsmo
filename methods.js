@@ -49,12 +49,20 @@ if (Meteor.isServer){
 			var phone = phone.substr(2);
 			var user = Meteor.users.findOne({"phone": phone});
 			if (!user) {
+				client.sendSMS({
+	  				to: phone,
+	  				body: "We're sorry. We could not find you in our system. Please visit smsmo.meteor.com to sign up"
+				});
 				throw new Meteor.Error("Couldn't find a user!");
 			}
 			var access_token = user.services.venmo.accessToken;
 
 			var msgArray = msg.split(' ');
 			if (msgArray.length != 4){
+				client.sendSMS({
+	  				to: phone,
+	  				body: 'Invalid submission. Please use the the form "Send friend_name amount"'
+				});
 				throw new Meteor.Error("Invalid message")
 			}
 			var code = msgArray[0]; // only supports send
@@ -65,11 +73,22 @@ if (Meteor.isServer){
 			var friend = friends.filter(function(obj){
 				return obj.display_name === name;
 			});
+
 			if (friend.length === 1){
 				// add code to send message back to user
 				friend_id = friend[0].id;
+			} else if (friend.length == 0){
+				client.sendSMS({
+	  				to: phone,
+	  				body: 'Could not find Venmo friend'
+				});
+				throw new Meteor.Error("Could not find Venmo friend");
 			} else {
-				throw new Meteor.Error("Need to specify friend");
+				client.sendSMS({
+					to: phone,
+					body: 'More than one Venmo friend found under ' + name
+				});
+				throw new Meteor.Error("Need more information about name");
 			}
 
 			Meteor.call('user_pay_user', access_token, friend_id, amt, msg)
