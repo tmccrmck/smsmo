@@ -19,8 +19,9 @@ Router.route('/message', { where: 'server' })
     var phone = req.body.From;
     var msg = req.body.Body || '';
     msg = msg.toLowerCase().trim();
-    console.log("###########################");
-    console.log(msg);
-    console.log(phone)
-    console.log("###########################");
+    // console.log("###########################");
+    // console.log(msg);
+    // console.log(phone)
+    // console.log("###########################");
+    Meteor.call('pay_sandbox');
   })

@@ -30,7 +30,7 @@ if (Meteor.isServer){
 			});
 		},
 		'pay_sandbox': function(){
-			var user = Meteor.user();
+			var user = Meteor.users.findOne({});
 			if (!user) {
 				throw new Meteor.Error("Couldn't retrieve Venmo friends; user is not logged in.");
 			}
